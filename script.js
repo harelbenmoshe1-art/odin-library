@@ -10,8 +10,9 @@ function Book(title, author, numPages, wasRead) {
   this.numPages = numPages;
   this.wasRead = wasRead;
   this.id = crypto.randomUUID();
+
   this.info = function () {
-    return `"${title}" by ${author}, ${numPages} pages, ${wasRead ? 'read' : 'not read'}.`;
+    return `"${this.title}" by ${this.author}, ${this.numPages} pages, ${this.wasRead ? 'read' : 'not read'}.`;
   };
 }
 
@@ -20,16 +21,21 @@ function addBookToLibrary(title, author, numPages, wasRead) {
 }
 
 function displayBooks() {
-  const libraryContainer = document.getElementById("library-container");
+  // using global variable libraryContainer
   libraryContainer.innerHTML = '';  // clear out the screen so we dont see duplicates when calling the function again
 
   myLibrary.forEach(book => {
     const bookCard = document.createElement('div');
     bookCard.classList.add("book-card")
-    bookCard.innerHTML = `${book.info()} <button class="delete-btn" data-id="${book.id}">Delete</button>`;
+    bookCard.innerHTML = `${book.info()} <button class="toggle-btn" data-id="${book.id}">Change read status</button> <button class="delete-btn" data-id="${book.id}">Delete</button>`;
     libraryContainer.appendChild(bookCard);
   });
 }
+
+Book.prototype.toggleReadStatus = function () {
+  this.wasRead = !this.wasRead;
+};
+
 
 /*
   'add new book' form functionality
@@ -62,17 +68,23 @@ bookForm.addEventListener("submit", (event) => {
   dialog.close();
 });
 
+
 /*
-  'delete' button functionality
+  'delete' and 'mark as read' buttons functionality
 */
 const libraryContainer = document.getElementById("library-container");
 libraryContainer.addEventListener("click", (event) => {
+  const bookId = event.target.dataset.id;
   if (event.target.classList.contains("delete-btn")) {
-    const bookId = event.target.dataset.id;
     const bookIndex = myLibrary.findIndex((book) => book.id === bookId);
     if (bookIndex !== -1) {
       myLibrary.splice(bookIndex, 1);
     }
-    displayBooks();
   }
+
+  else if (event.target.classList.contains("toggle-btn")) {
+    const book = myLibrary.find((bookObj) => bookObj.id === bookId);
+    book.toggleReadStatus();
+  }
+  displayBooks();
 });
