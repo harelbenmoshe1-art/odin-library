@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,39 @@
   <script src="script.js" defer></script>
   <title>Library</title>
 </head>
+
 <body>
   <div id="library-container"></div>
+  <button id="new-book-btn">New Book</button>
+  <dialog id="book-dialog">
+    <form id="book-form">
+      <h2>Add New Book</h2>
+      <div>
+        <label for="title">Title:</label>
+        <input type="text" id="title" required>
+      </div>
+
+      <div>
+        <label for="author">Author:</label>
+        <input type="text" id="author" required>
+      </div>
+
+      <div>
+        <label for="numPages">Pages:</label>
+        <input type="number" id="numPages" required>
+      </div>
+
+      <div>
+        <label for="wasRead">Read:</label>
+        <input type="checkbox" id="wasRead">
+      </div>
+
+      <div class="form-buttons">
+        <button type="submit" id="submit-btn">Submit</button>
+        <button type="button" id="cancel-btn">Cancel</button>
+      </div>
+    </form>
+  </dialog>
 </body>
+
 </html>
