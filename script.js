@@ -37,7 +37,42 @@ function displayBooks() {
   });
 }
 
+/*
+  constraint validation API for custom error messages
+*/
+const titleInput = document.getElementById("title");
+const authorInput = document.getElementById("author");
+const numPagesInput = document.getElementById("numPages");
 
+// title validation
+titleInput.addEventListener("invalid", () => {
+  if (titleInput.validity.valueMissing) {
+    titleInput.setCustomValidity("Please enter a title for the book.");
+  }
+});
+titleInput.addEventListener("input", () => {
+  titleInput.setCustomValidity("");
+});
+
+// author validation
+authorInput.addEventListener("invalid", () => {
+  if (authorInput.validity.valueMissing) {
+    authorInput.setCustomValidity("Please enter the author's name.");
+  }
+});
+authorInput.addEventListener("input", () => {
+  authorInput.setCustomValidity("");
+});
+
+// pages validation
+numPagesInput.addEventListener("invalid", () => {
+  if (numPagesInput.validity.valueMissing) {
+    numPagesInput.setCustomValidity("Please enter the number of pages.");
+  }
+});
+numPagesInput.addEventListener("input", () => {
+  numPagesInput.setCustomValidity("");
+});
 
 /*
   'add new book' form functionality
@@ -58,12 +93,9 @@ cancelBtn.addEventListener("click", () => {
 bookForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const title = document.getElementById("title").value;
-  const author = document.getElementById("author").value;
-  const numPages = document.getElementById("numPages").value;
   const wasRead = document.getElementById("wasRead").checked;
 
-  addBookToLibrary(title, author, numPages, wasRead);
+  addBookToLibrary(titleInput.value, authorInput.value, numPagesInput.value, wasRead);
   displayBooks();
 
   bookForm.reset();
